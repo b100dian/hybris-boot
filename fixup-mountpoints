@@ -1132,7 +1132,16 @@ case "$DEVICE" in
             -e 's block/platform/sdhci-tegra.3/by-name/SOS mmcblk0p1 ' \
             "$@"
         ;;
-
+    "sake")
+        sed -i \
+            -e 's block/by-name/metadata sda22' \
+            -e 's block/bootdevice/by-name/persist sda2' \
+            -e 's block/bootdevice/by-name/userdata block-dm11' \
+            -e 's block/bootdevice/by-name/dsp sde34' \
+            -e 's block/bootdevice/by-name/bluetooth sde30' \
+            -e 's block/bootdevice/by-name/qmcs sde24' \
+            "$@"
+        ;;
     "tilapia")
         sed -i \
             -e 's block/platform/sdhci-tegra.3/by-name/APP mmcblk0p3 ' \
