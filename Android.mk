@@ -46,7 +46,7 @@ HYBRIS_FIXUP_MOUNTS := $(shell ls -1 $(LOCAL_PATH)/../fixup-mountpoints $(LOCAL_
 # but Cyanogenmod seems to use device/*/$(TARGET_DEVICE) in config.mk so we will too.
 HYBRIS_FSTABS := $(shell find device/*/$(TARGET_DEVICE) -name *fstab* | grep -v goldfish)
 # If fstab files were not found from primary device repo then they might be in
-# some other device repo so try to search for them first in device/PRODUCT_MANUFACTURER. 
+# some other device repo so try to search for them first in device/PRODUCT_MANUFACTURER.
 # In many cases PRODUCT_MANUFACTURER is the short vendor name used in folder names.
 ifeq "$(HYBRIS_FSTABS)" ""
 TARGET_VENDOR := "$(shell echo $(PRODUCT_MANUFACTURER) | tr '[:upper:]' '[:lower:]')"
@@ -142,7 +142,7 @@ LOCAL_MODULE_PATH := $(PRODUCT_OUT)
 include $(BUILD_SYSTEM)/base_rules.mk
 BOOT_INTERMEDIATE := $(call intermediates-dir-for,ROOT,$(LOCAL_MODULE),)
 
-BOOT_RAMDISK := $(BOOT_INTERMEDIATE)/boot-initramfs.gz
+BOOT_RAMDISK := $(BOOT_INTERMEDIATE)/boot-initramfs.lz4
 BOOT_RAMDISK_SRC := $(LOCAL_PATH)/initramfs
 BOOT_RAMDISK_INIT_SRC := $(LOCAL_PATH)/init-script
 BOOT_RAMDISK_INIT := $(BOOT_INTERMEDIATE)/init
@@ -163,7 +163,7 @@ $(BOOT_RAMDISK): $(BOOT_RAMDISK_FILES) $(BB_STATIC)
 # really hard to depend on things which may affect init.
 	@mv $(BOOT_RAMDISK_INIT) $(BOOT_INTERMEDIATE)/initramfs/init
 	@cp $(BB_STATIC) $(BOOT_INTERMEDIATE)/initramfs/bin/
-	@(cd $(BOOT_INTERMEDIATE)/initramfs && find . | cpio -H newc -o ) | gzip -9 > $@
+	@(cd $(BOOT_INTERMEDIATE)/initramfs && find . | cpio -H newc -o ) | $(LZ4) -l -12 --favor-decSpeed -  > $@
 
 $(BOOT_RAMDISK_INIT): $(BOOT_RAMDISK_INIT_SRC) $(ALL_PREBUILT)
 	@mkdir -p $(dir $@)
@@ -185,7 +185,7 @@ LOCAL_MODULE_PATH := $(PRODUCT_OUT)
 include $(BUILD_SYSTEM)/base_rules.mk
 RECOVERY_INTERMEDIATE := $(call intermediates-dir-for,ROOT,$(LOCAL_MODULE),)
 
-RECOVERY_RAMDISK := $(RECOVERY_INTERMEDIATE)/recovery-initramfs.gz
+RECOVERY_RAMDISK := $(RECOVERY_INTERMEDIATE)/recovery-initramfs.lz4
 RECOVERY_RAMDISK_SRC := $(LOCAL_PATH)/initramfs
 RECOVERY_RAMDISK_INIT_SRC := $(LOCAL_PATH)/init-script
 RECOVERY_RAMDISK_INIT := $(RECOVERY_INTERMEDIATE)/init
@@ -204,7 +204,7 @@ $(RECOVERY_RAMDISK): $(RECOVERY_RAMDISK_FILES) $(BB_STATIC)
 	@cp -a $(RECOVERY_RAMDISK_SRC)/*  $(RECOVERY_INTERMEDIATE)/initramfs
 	@mv $(RECOVERY_RAMDISK_INIT) $(RECOVERY_INTERMEDIATE)/initramfs/init
 	@cp $(BB_STATIC) $(RECOVERY_INTERMEDIATE)/initramfs/bin/
-	@(cd $(RECOVERY_INTERMEDIATE)/initramfs && find . | cpio -H newc -o ) | gzip -9 > $@
+	@(cd $(RECOVERY_INTERMEDIATE)/initramfs && find . | cpio -H newc -o ) | $(LZ4) -l -12 --favor-decSpeed - > $@
 
 $(RECOVERY_RAMDISK_INIT): $(RECOVERY_RAMDISK_INIT_SRC) $(ALL_PREBUILT)
 	@mkdir -p $(dir $@)
