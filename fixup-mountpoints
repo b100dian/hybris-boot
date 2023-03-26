@@ -1230,9 +1230,9 @@ case "$DEVICE" in
             -e 's block/bootdevice/by-name/vbmeta_system_b sda21 ' \
             -e 's block/bootdevice/by-name/vendor_boot_a sde23 ' \
             -e 's block/bootdevice/by-name/vendor_boot_b sde48 ' \
-            -e 's block/bootdevice/by-name/vm block ' \
-            -e 's block/bootdevice/by-name/vm block ' \
-            -e 's block/bootdevice/by-name/vm block ' \
+            -e 's block/bootdevice/by-name/vm-bootsys_a sde19 ' \
+            -e 's block/bootdevice/by-name/vm-bootsys_b sde44 ' \
+            -e 's block/bootdevice/by-name/vm-data sde61 ' \
             -e 's block/bootdevice/by-name/xbl_a sdb1 ' \
             -e 's block/bootdevice/by-name/xbl_b sdc1 ' \
             -e 's block/bootdevice/by-name/xbl_config_a sdb2 ' \
