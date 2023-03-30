@@ -226,7 +226,7 @@ usb_setup_configfs() {
     fi
     echo $USB_FUNCTIONS | grep -q "mass_storage" && ln -s $GADGET_DIR/g1/functions/storage.0 $GADGET_DIR/g1/configs/$G_CONFIG
 
-    echo "$(G_USB_DEVICE)" > $GADGET_DIR/g1/UDC
+    echo "$G_USB_DEVICE" > $GADGET_DIR/g1/UDC
 }
 
 # This sets up the USB with whatever USB_FUNCTIONS are set to via android_usb
