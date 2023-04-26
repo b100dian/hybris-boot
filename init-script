@@ -193,7 +193,7 @@ inject_loop() {
 # This sets up the USB with whatever USB_FUNCTIONS are set to via configfs
 usb_setup_configfs() {
     G_USB_ISERIAL=$GADGET_DIR/g1/strings/0x409/serialnumber
-    G_CONFIG=c.1
+    G_CONFIG=b.1
     G_USB_DEVICE="$(ls /sys/class/udc | grep -v dummy)"
 
     write /sys/class/udc/$G_USB_DEVICE/device/../mode peripheral
